@@ -1,0 +1,6 @@
+# vim backup files
+*.swp
+
+# Potential error logs
+error_log
+error.log
