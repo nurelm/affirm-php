@@ -9,7 +9,7 @@
  *
  * @category   Bootstrap
  * @package    Serverphu
- * @author     Michael Sypolt <msypolt@transitguru.limited>
+ * @author     Michael Sypolt <michael.sypolt@transitguru.limited>
  * @copyright  Copyright (c) 2015
  * @license    http://www.gnu.org/licenses/gpl-3.0.txt
  * @version    0.5.0 
