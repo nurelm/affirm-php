@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * AffirmConfig Class
+ * 
+ * This object loads default site settings
+ *
+ * @category Configuration
+ * @package Affirm API
+ * @author Michael Sypolt <msypolt@nurelm.com>
+ * @copyright Copyright (c) 2015
+ * @license http://www.gnu.org/licenses/gpl-3.0.txt
+ * @version Release: @package_version@
+ *
+ */
+class AffirmConfig {
+  public $production = true; /**< set this to false if using sandbox API */
+  public $sandbox_public_key = 'secretkeyhere'; /**< Sandbox public key from Affirm */
+  public $sandbox_private_key = 'supersecretkey'; /**< Sandbox private key from Affirm */
+  public $live_public_key = 'secretkeyhere'; /**< Production public key from Affirm */
+  public $live_private_key = 'supersecretkey'; /**< Production private key from Affirm */
+  public $product_key = 'productkeyhere'; /**< Financial product key from Affirm */
+}

@@ -1,0 +1,5 @@
+Affirm API 0.5.0, [ongoing]
+------------------------------
+- Combined old project files to make this project
+- Built up OOP framework 
+- Set up internal API and testing protocol
