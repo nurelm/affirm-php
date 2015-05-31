@@ -19,7 +19,8 @@ class AffirmCurl {
   public $post_body; /**< Post body to send to Affirm */
   public $method; /**< HTTP Method to send */
   public $curl; /**< cURL handle keeping track of this */
-  public $status; /**< stores the response code from the API */
+  public $status; /**< stores the HTTP status from cURL response */
+  public $headers; /**< stores the headers from the cURL response */
   public $response; /**< stores the response body */
   public $options; /**< stores the cURL options */
 
@@ -39,10 +40,10 @@ class AffirmCurl {
     if(is_null($url)){
       throw new Exception('You need a URL!');
     }
+    $this->status = 0;
     $this->method = $method;
     $this->url = $url;
     $this-> options = array(
-      CURLOPT_USERAGENT => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)',
       CURLOPT_POST => true,
       CURLOPT_URL => $this->url,
       CURLOPT_POSTFIELDS => $this->post_body,
@@ -53,13 +54,18 @@ class AffirmCurl {
     $this->curl = curl_init();
   }
 
+  /**
+   * Sends the request to the remote server
+   */
   public function send(){
     ob_start();
     curl_setopt_array($this->curl, $this->options);
     $success = curl_exec($this->curl);
-    curl_close($this->curl);
     if ($success){
+      $this->headers = curl_getinfo($this->curl);
+      $this->status = $this->headers['http_code'];
       $this->response = ob_get_clean();
+      curl_close($this->curl);
     }
     else{
       throw new Exception('Really bad Thing');
