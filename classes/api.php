@@ -3,7 +3,7 @@
 /**
  * @file
  * AffirmAPI Class
- * 
+ *
  * Handles user input and provides output
  *
  * @category Request Handling

@@ -4,7 +4,7 @@
  * @file
  * Bootstrap file for Affirm API Connector
  *
- * This includes all the necessary 
+ * This includes all the necessary
  * to access the router, which will then access appropriate controllers
  *
  * @category   Bootstrap
@@ -12,7 +12,7 @@
  * @author     Michael Sypolt <michael.sypolt@transitguru.limited>
  * @copyright  Copyright (c) 2015
  * @license    http://www.gnu.org/licenses/gpl-3.0.txt
- * @version    0.5.0 
+ * @version    0.5.0
  */
 //
 define('DOC_ROOT', __DIR__);

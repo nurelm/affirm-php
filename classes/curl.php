@@ -3,7 +3,7 @@
 /**
  * @file
  * AffirmCurl Class
- * 
+ *
  * Handles requests going out to Affirm using cURL
  *
  * @category Request Handling
@@ -24,8 +24,8 @@ class AffirmCurl {
   public $options; /**< stores the cURL options */
 
   /**
-   * Constructor 
-   * 
+   * Constructor
+   *
    * @param string $command Command to send to Affirm
    * @param array $data Data to pack and send to Affirm
    */
