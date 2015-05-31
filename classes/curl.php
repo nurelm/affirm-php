@@ -31,7 +31,7 @@ class AffirmCurl {
    */
   public function __construct($url, $method='GET', $data){
     if(is_array($data)){
-      $this->post_body = json_encode($data);
+      $this->post_body = json_encode($data, JSON_UNESCAPED_SLASHES);
     }
     else{
       $this->post_body = $data;
