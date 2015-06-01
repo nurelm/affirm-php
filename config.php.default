@@ -21,7 +21,7 @@ class AffirmConfig {
   public $live_public_key = 'secretkeyhere'; /**< Production public key from Affirm */
   public $live_private_key = 'supersecretkey'; /**< Production private key from Affirm */
   public $product_key = 'productkeyhere'; /**< Financial product key from Affirm */
-  public $live_baseurl = 'api.affirm.com/api/v2/'; /**< Live API's base URL */
-  public $sandbox_baseurl = 'sandbox.affirm.com/api/v2/'; /**< Sandbox API's base URL */
+  public $live_baseurl = 'api.affirm.com/api/v2/charges'; /**< Live API's base URL */
+  public $sandbox_baseurl = 'sandbox.affirm.com/api/v2/charges'; /**< Sandbox API's base URL */
 
 }

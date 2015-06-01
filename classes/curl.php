@@ -21,7 +21,8 @@ class AffirmCurl {
   public $curl; /**< cURL handle keeping track of this */
   public $status; /**< stores the HTTP status from cURL response */
   public $headers; /**< stores the headers from the cURL response */
-  public $response; /**< stores the response body */
+  public $response; /**< stores the raw response body */
+  public $response_array; /**< response in array form, if available */
   public $options; /**< stores the cURL options */
 
   /**
@@ -69,6 +70,18 @@ class AffirmCurl {
     }
     else{
       throw new Exception('Really bad Thing');
+    }
+  }
+
+  /**
+   *
+   */
+  public function unpack(){
+    if ($this->headers['content_type'] == 'application/json' && $this->status > 0){
+      $this->response_array = json_decode($this->response, true);
+    }
+    else{
+      $this->response_array = array();
     }
   }
 }
