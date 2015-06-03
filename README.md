@@ -85,7 +85,8 @@ credentials into the arguments of the `create_charge()` method of the
 `AffirmAPI` class. The `$live_baseurl` and `$sandbox_baseurl` properties
 of the `AffirmConfig` class must be left as shown in the `config.php.default`
  The methods of the `AffirmAPI` class and how to instantiate the class is shown
-below.
+below. Unless you are doing testing, your code should only interface with
+instances of the `AffirmAPI` class.
 
 ## Create an Instance of The AffirmAPI Class
 
@@ -95,6 +96,7 @@ first way shows if you used the `AffirmConfig` class to store all of your
 API keys and other credentials:
 
 ```php
+
 // Create a new AffirmAPI with a fully configured AffirmConfig class
 $affirm = new AffirmAPI();
 ```
@@ -104,6 +106,7 @@ with these credentials overriding the ones stored in the `AffirmConfig`
 class:
 
 ```php
+
 // These would really be in a database, but showing this for example
 $public_key = 'secretkey'; /**< Public API key, also used on Site Integration */
 $private_key = 'supersecretkey'; /**< Private API key, never share this! */
@@ -125,7 +128,105 @@ the future. Once you use your `checkout_token` it is safe to discard as it is
 a one-time use token and is no longer usable once a new charge is created.
 
 ```php
+
 $token = 'somesillystringfromaffirm' /**< checkout_token from Affirm */
 // Creating a charge, storing data in the $affirm object
 $affirm->create_charge($token);
+$charge_id = $affirm->affirm->id;
+```
+
+Once you have a `charge_id`, you can use it to perform further actions to the
+charge as needed.
+
+## Read a Charge
+
+When you read a charge, you retreive the information that Affirm has on your
+charge. The output that is registered in the instance of the `AffirmAPI` is
+the same as the output from the `create_charge()` method, except this
+uses the `charge_id` since you can only create a charge once. 
+
+```php
+
+// Given a $charge_id request a charge object from Affirm
+$affirm->read_charge($charge_id);
+
+```
+
+## Capture a Charge
+
+To capture a charge, use the `capture_charge()` method with your `charge_id` 
+in addition to a few optional parameters. These additional parameters are
+optional:
+
+* `order_id` - A string field for your own reference
+* `shipping_carrier` - A string that contains the shipping carrier
+* `shipping_confirmation` - A string that contains the shipping confirmation
+
+```php
+
+// Given a $charge_id and no optional fields desired
+$affirm->capture_charge($charge_id);
+
+// If adding the optional fields, include them as follows
+$order_id = 'yourownappid'; /**< Order ID for your own records */
+$shipping_carrier = 'USPS'; /**< Carrier shipping the goods */
+$shipping_confirmation = 'someconfnumber'; /**< Shipping confirmation number */
+
+$affirm->capture_charge($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
+
+// If you provide only a few optional fields, set others to null
+$order_id = 'yourownappid'; 
+$shipping_carrier = 'USPS'; 
+$shipping_confirmation = null; //Shipping confirmation was not supplied
+
+$affirm->capture_charge($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
+```
+
+## Void a Charge
+
+To void a charge, use the `void_charge()` method with your `charge_id`. No
+other parameters are required.
+
+```php
+
+// Given a $charge_id void a charge
+$affirm->void_charge($charge_id);
+```
+
+## Refund a Charge
+
+To refund a charge, use the `refund_charge()` method with your `charge_id` and
+the amount to be refunded.
+
+```php
+
+// Given a $charge_id refund a charge
+$amount = 3.99; /**< refund amount is in dollars */
+$affirm->refund_charge($charge_id, $refund);
+```
+
+## Update Shipping Information
+
+To update shipping information, use the `updates_shipping()` method with your
+`charge_id` and the optional fields mentioned in *Capture a Charge*:
+
+* `order_id` - A string field for your own reference
+* `shipping_carrier` - A string that contains the shipping carrier
+* `shipping_confirmation` - A string that contains the shipping confirmation
+
+```php
+
+// Given a $charge_id and the fields desired to be updated
+$order_id = 'yourownappid'; /**< Order ID for your own records */
+$shipping_carrier = 'USPS'; /**< Carrier shipping the goods */
+$shipping_confirmation = 'someconfnumber'; /**< Shipping confirmation number */
+
+$affirm->update_shipping($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
+
+// If you provide only a few optional fields, set others to null
+$order_id = null; //Was not changed
+$shipping_carrier = 'UPS'; //Changed carrier
+$shipping_confirmation = 'someconfnumber'; //Shipping confirmation changed
+
+$affirm->capture_charge($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
 ```
