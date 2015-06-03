@@ -1,7 +1,7 @@
 # Affirm PHP API Connector
 
 This is a stand-alone PHP library that connects to the
-[![Affirm](http://affirm.com)] API. The intent is to be able to plug this
+[Affirm](http://affirm.com) API. The intent is to be able to plug this
 library into the e-commerce platform of choice, provided it can use PHP. It
 can either be installed as a library to your PHP driven website or your
 commandline PHP scripting library.
@@ -27,9 +27,9 @@ include(DOC_ROOT . '/affirm-php/affirm-api.php');
 
 ## Dependencies
 
-This library depends on [![PHP](http://php.net/)] 5.5 or later. Most
+This library depends on [PHP](http://php.net/) 5.5 or later. Most
 GNU/Linux distributions provide them in an easily downloaded and installed
-repository. The [![PHP cURL Library](http://php.net/manual/en/book.curl.php)]
+repository. The [PHP cURL Library](http://php.net/manual/en/book.curl.php)
 is also needed, and is often packaged separately. Installation instructions
 are shown below for each of the major GNU/Linux distribution types. These
 commands must all be run as root, or use `sudo` utility.
@@ -57,12 +57,12 @@ yum install php5 php5-curl
 
 ## Affirm Account
 
-A current [![Affirm](https://www.affirm.com/)] account is required for this
+A current [Affirm](https://www.affirm.com/) account is required for this
 library to function. Once signed up for Affirm, a public/private key pair that
 serves as your username and password would be provided, along with a Financial
 Product Code and your API URL. In another area of your application that faces
 the web, you should follow the steps outlined in the Affirm
-[![Site Integration](http://docs.affirm.com/v2/api/#site-integration)]
+[Site Integration](http://docs.affirm.com/v2/api/#site-integration)
 documentation. Your server should also be set up to receive the webhook that
 sends the `checkout_token` to your application as this checkout token is
 used for initializing your charge (see *Usage* below).
