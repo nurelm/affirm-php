@@ -31,8 +31,11 @@ class AffirmCurl {
    * @param string $command Command to send to Affirm
    * @param array $data Data to pack and send to Affirm
    */
-  public function __construct($url, $method='GET', $data){
-    if(is_array($data)){
+  public function __construct($url, $method='GET', $data=''){
+    if(is_null($data)){
+      $this->post_body = '';
+    }
+    elseif(is_array($data)){
       $this->post_body = json_encode($data, JSON_UNESCAPED_SLASHES);
     }
     else{

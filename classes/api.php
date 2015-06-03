@@ -47,7 +47,7 @@ class AffirmAPI {
       $this->private_key = $config->sandbox_private_key; 
       $this->base_url = $config->sandbox_baseurl; 
     }
-    $this->product_code = $config->product_code; 
+    $this->product_code = $config->product_key; 
 
     // Add any overrides to keys and codes
     if (is_bool($public_key)){
@@ -61,13 +61,143 @@ class AffirmAPI {
     }
   }
 
+  /**
+   * Creates a new charge from the checkout_token
+   *
+   * @param string $checkout_token Authentication token from affirm.js
+   */
   public function create_charge($checkout_token){
-    if ($checkout_token == ''){
+    if (is_null($checkout_token) || $checkout_token == ''){
       throw new Exception('Checkout token is empty');
     }
     else{
       $auth_array = array('checkout_token' => $checkout_token);
       $this->curl = new AffirmCurl("https://{$this->public_key}:{$this->private_key}@{$this->base_url}", 'POST', $auth_array);
+      $this->curl->send();
+      $this->curl->unpack();
+      $this->response = $this->curl->response_object;
+    }
+  }
+
+  /**
+   * Reads a charge from a previously created charge
+   *
+   * @param string $charge_id Unique Charge ID from Affirm
+   */
+  public function read_charge($charge_id){
+    if ($charge_id == ''){
+      throw new Exception('Charge ID is empty');
+    }
+    else{
+      $this->curl = new AffirmCurl("https://{$this->public_key}:{$this->private_key}@{$this->base_url}/{$charge_id}");
+      $this->curl->send();
+      $this->curl->unpack();
+      $this->response = $this->curl->response_object;
+    }
+  }
+
+  /**
+   * Captures the charge
+   *
+   * @param string $charge_id Unique Charge ID from Affirm
+   * @param string $order_id Optional order ID for your records
+   * @param string $carrier Optional shipping carrier name
+   * @param string $confirmation Optional confirmation number
+   */
+  public function capture_charge($charge_id, $order_id = null, $carrier = null, $confirmation = null){
+    if ($charge_id == ''){
+      throw new Exception('Charge ID is empty');
+    }
+    else{
+      $inputs = array();
+      if (!is_null($order_id)){
+        $inputs['order_id'] = "{$order_id}";
+      }
+      if (!is_null($carrier)){
+        $inputs['shipping_carrier'] = "{$carrier}";
+      }
+      if (!is_null($order_id)){
+        $inputs['shipping_confirmation'] = "{$confirmation}";
+      }
+      if(count($inputs) == 0){
+        $inputs = '{}';
+      }
+      $this->curl = new AffirmCurl("https://{$this->public_key}:{$this->private_key}@{$this->base_url}/{$charge_id}/capture", 'POST', $inputs);
+      $this->curl->send();
+      $this->curl->unpack();
+      $this->response = $this->curl->response_object;
+    }
+  }
+
+  /**
+   * Voids the charge
+   *
+   * @param string $charge_id Unique Charge ID from Affirm
+   */
+  public function void_charge($charge_id){
+    if ($charge_id == ''){
+      throw new Exception('Charge ID is empty');
+    }
+    else{
+      $this->curl = new AffirmCurl("https://{$this->public_key}:{$this->private_key}@{$this->base_url}/{$charge_id}/void", 'POST', '{}');
+      $this->curl->send();
+      $this->curl->unpack();
+      $this->response = $this->curl->response_object;
+    }
+  }
+
+  /**
+   * Refunds the charge
+   *
+   * @param string $charge_id Unique Charge ID from Affirm
+   * @param float $amount Amount of refund in decimal dollars
+   */
+  public function refund_charge($charge_id, $amount){
+    if ($charge_id == ''){
+      throw new Exception('Charge ID is empty');
+    }
+    else{
+      if (is_null($amount) || !is_numeric($amount)){
+        throw new Exception('Amount is not a number');
+      }
+      else{
+        $cents = $amount * 100;
+        $inputs = array('amount' => $cents);
+      }
+      $this->curl = new AffirmCurl("https://{$this->public_key}:{$this->private_key}@{$this->base_url}/{$charge_id}/refund", 'POST', $inputs);
+      $this->curl->send();
+      $this->curl->unpack();
+      $this->response = $this->curl->response_object;
+    }
+  }
+
+  /**
+   * Updates the shipping information
+   *
+   * @param string $charge_id Unique Charge ID from Affirm
+   * @param string $order_id Optional order ID for your records
+   * @param string $carrier Optional shipping carrier name
+   * @param string $confirmation Optional confirmation number
+   */
+  public function update_shipping($charge_id, $order_id = null, $carrier = null, $confirmation = null){
+    if ($charge_id == ''){
+      throw new Exception('Charge ID is empty');
+    }
+    else{
+      $inputs = array();
+      if (!is_null($order_id)){
+        $inputs['order_id'] = "{$order_id}";
+      }
+      if (!is_null($carrier)){
+        $inputs['shipping_carrier'] = "{$carrier}";
+      }
+      if (!is_null($order_id)){
+        $inputs['shipping_confirmation'] = "{$confirmation}";
+      }
+      if(count($inputs) == 0){
+        $inputs = '{}';
+      }
+      $this->curl = new AffirmCurl("https://{$this->public_key}:{$this->private_key}@{$this->base_url}/{$charge_id}/update", 'POST', $inputs);
       $this->curl->send();
       $this->curl->unpack();
       $this->response = $this->curl->response_object;
