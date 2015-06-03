@@ -67,10 +67,65 @@ documentation. Your server should also be set up to receive the webhook that
 sends the `checkout_token` to your application as this checkout token is
 used for initializing your charge (see *Usage* below).
 
+## Configuration
+
+One final step before starting to call objects in the application is to copy
+`config.php.default` to `config.php` and update the information for your
+credentials. This configuration file is used to create the `AffirmConfig` class
+which is required for the application. If you choose not to enter your details
+in this file because it is stored in a database, this file is still required
+because the `AffirmConfig` class provides the current API base URLs.
+
 # Usage
 
 This library contains a few PHP classes that are used for interfacing with
 Affirm and your application. You may either hard-code your details in
 `config.php` or if stored in your application's database, you can enter your
 credentials into the arguments of the `create_charge()` method of the
-`AffirmAPI` class.
+`AffirmAPI` class. The `$live_baseurl` and `$sandbox_baseurl` properties
+of the `AffirmConfig` class must be left as shown in the `config.php.default`
+ The methods of the `AffirmAPI` class and how to instantiate the class is shown
+below.
+
+## Create an Instance of The AffirmAPI Class
+
+Once the library is installed and properly linked as shown in *Installation*
+above, you may create an instance of the `AffirmAPI` class in two ways. The
+first way shows if you used the `AffirmConfig` class to store all of your
+API keys and other credentials:
+
+```php
+// Create a new AffirmAPI with a fully configured AffirmConfig class
+$affirm = new AffirmAPI();
+```
+
+The alternative is to add arguments so that it will construct the object
+with these credentials overriding the ones stored in the `AffirmConfig`
+class:
+
+```php
+// These would really be in a database, but showing this for example
+$public_key = 'secretkey'; /**< Public API key, also used on Site Integration */
+$private_key = 'supersecretkey'; /**< Private API key, never share this! */
+$product_code = 'financialcode'; /**< Financial product code */
+$production = true; /**< Set this to false if in sandbox mode */
+
+// Create a new AffirmAPI with the above information included
+$affirm = new AffirmAPI($public_key, $private_key, $product_code, $production);
+```
+
+## Create a new Charge
+
+Your web-facing application would harvest a `checkout_token` which is required
+for creating a new charge. The information for the new charge is stored in the
+instance of the `AffirmAPI` class and the data can be used to do further
+operations with the charge. You should also store the `charge_id` in your
+application's database if you intend on updating information at any time in
+the future. Once you use your `checkout_token` it is safe to discard as it is
+a one-time use token and is no longer usable once a new charge is created.
+
+```php
+$token = 'somesillystringfromaffirm' /**< checkout_token from Affirm */
+// Creating a charge, storing data in the $affirm object
+$affirm->create_charge($token);
+```
