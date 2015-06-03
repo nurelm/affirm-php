@@ -132,7 +132,7 @@ a one-time use token and is no longer usable once a new charge is created.
 $token = 'somesillystringfromaffirm' /**< checkout_token from Affirm */
 // Creating a charge, storing data in the $affirm object
 $affirm->create_charge($token);
-$charge_id = $affirm->affirm->id;
+$charge_id = $affirm->response->id;
 ```
 
 Once you have a `charge_id`, you can use it to perform further actions to the

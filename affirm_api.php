@@ -14,7 +14,7 @@
  * @license    http://www.gnu.org/licenses/gpl-3.0.txt
  * @version    0.5.0
  */
-//
+// Make sure this directory is application root
 define('DOC_ROOT', __DIR__);
 
 // Load the settings

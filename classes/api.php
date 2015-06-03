@@ -21,7 +21,7 @@ class AffirmAPI {
   public $base_url; /**< Affirm base url for making request */
   public $curl; /**< AffirmCurl object */
 
-  public $affirm; /**< Data from Affirm */
+  public $response; /**< Data from Affirm as an object */
 
   /**
    * Constructor, uses default configuration file if left empty
@@ -70,7 +70,7 @@ class AffirmAPI {
       $this->curl = new AffirmCurl("https://{$this->public_key}:{$this->private_key}@{$this->base_url}", 'POST', $auth_array);
       $this->curl->send();
       $this->curl->unpack();
-      $this->affirm = $this->curl->response_object;
+      $this->response = $this->curl->response_object;
     }
   }
 }
