@@ -143,7 +143,7 @@ charge as needed.
 When you read a charge, you retreive the information that Affirm has on your
 charge. The output that is registered in the instance of the `AffirmAPI` is
 the same as the output from the `create_charge()` method, except this
-uses the `charge_id` since you can only create a charge once. 
+uses the `charge_id` since you can only create a charge once.
 
 ```php
 
@@ -154,7 +154,7 @@ $affirm->read_charge($charge_id);
 
 ## Capture a Charge
 
-To capture a charge, use the `capture_charge()` method with your `charge_id` 
+To capture a charge, use the `capture_charge()` method with your `charge_id`
 in addition to a few optional parameters. These additional parameters are
 optional:
 
@@ -175,8 +175,8 @@ $shipping_confirmation = 'someconfnumber'; /**< Shipping confirmation number */
 $affirm->capture_charge($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
 
 // If you provide only a few optional fields, set others to null
-$order_id = 'yourownappid'; 
-$shipping_carrier = 'USPS'; 
+$order_id = 'yourownappid';
+$shipping_carrier = 'USPS';
 $shipping_confirmation = null; //Shipping confirmation was not supplied
 
 $affirm->capture_charge($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);

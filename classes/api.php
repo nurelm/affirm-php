@@ -26,7 +26,7 @@ class AffirmAPI {
   /**
    * Constructor, uses default configuration file if left empty
    *
-   * @param boolean $production Set this to false for sandbox mode 
+   * @param boolean $production Set this to false for sandbox mode
    * @param string $public_key Public Key for Affirm API
    * @param string $private_key Private Key for Affirm API
    * @param string $product_code Finanical product code for Affirm
@@ -38,16 +38,16 @@ class AffirmAPI {
       $config->production = $production;
     }
     if ($config->production == true){
-      $this->public_key = $config->live_public_key; 
-      $this->private_key = $config->live_private_key; 
-      $this->base_url = $config->live_baseurl; 
+      $this->public_key = $config->live_public_key;
+      $this->private_key = $config->live_private_key;
+      $this->base_url = $config->live_baseurl;
     }
     else{
-      $this->public_key = $config->sandbox_public_key; 
-      $this->private_key = $config->sandbox_private_key; 
-      $this->base_url = $config->sandbox_baseurl; 
+      $this->public_key = $config->sandbox_public_key;
+      $this->private_key = $config->sandbox_private_key;
+      $this->base_url = $config->sandbox_baseurl;
     }
-    $this->product_code = $config->product_key; 
+    $this->product_code = $config->product_key;
 
     // Add any overrides to keys and codes
     if (is_bool($public_key)){
