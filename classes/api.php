@@ -70,7 +70,7 @@ class AffirmAPI {
       $this->curl = new AffirmCurl("https://{$this->public_key}:{$this->private_key}@{$this->base_url}", 'POST', $auth_array);
       $this->curl->send();
       $this->curl->unpack();
-      $this->affirm = $this->curl->response_array;
+      $this->affirm = $this->curl->response_object;
     }
   }
 }

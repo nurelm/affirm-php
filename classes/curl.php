@@ -22,7 +22,7 @@ class AffirmCurl {
   public $status; /**< stores the HTTP status from cURL response */
   public $headers; /**< stores the headers from the cURL response */
   public $response; /**< stores the raw response body */
-  public $response_array; /**< response in array form, if available */
+  public $response_object; /**< response in object form, if available */
   public $options; /**< stores the cURL options */
 
   /**
@@ -78,10 +78,10 @@ class AffirmCurl {
    */
   public function unpack(){
     if ($this->headers['content_type'] == 'application/json' && $this->status > 0){
-      $this->response_array = json_decode($this->response, true);
+      $this->response_object = json_decode($this->response);
     }
     else{
-      $this->response_array = array();
+      $this->response_object = null;
     }
   }
 }
