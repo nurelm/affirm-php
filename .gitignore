@@ -1,5 +1,6 @@
 # Ignore sensitive settings files in public git repo
 config.php
+test/web/webconfig.php
 
 # vim backup files
 *.swp

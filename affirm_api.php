@@ -8,8 +8,8 @@
  * to access the router, which will then access appropriate controllers
  *
  * @category   Bootstrap
- * @package    Serverphu
- * @author     Michael Sypolt <michael.sypolt@transitguru.limited>
+ * @package    Affirm API
+ * @author     Michael Sypolt <michael.sypolt@nurelm.com>
  * @copyright  Copyright (c) 2015
  * @license    http://www.gnu.org/licenses/gpl-3.0.txt
  * @version    0.5.0

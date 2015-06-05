@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * @file
+ * Configuration file for web testing
+ *
+ * @category   Testing
+ * @package    Affirm API
+ * @author     Michael Sypolt <michael.sypolt@nurelm.com>
+ * @copyright  Copyright (c) 2015
+ * @license    http://www.gnu.org/licenses/gpl-3.0.txt
+ * @version    0.5.0
+ */
+// Edit your variables here
+
+$public_key = 'yourpublickey'; /** Public key for Affirm */
+$product_code = 'financialproductkey'; /** Product code for Affirm */
+/** Affirm Sandbox or Live CDN'd JavaScript URL */
+$affirm_url = 'https://cdn1-sandbox.affirm.com/js/v2/affirm.js';
+
+// Add a testing customer's info here
+$firstname = 'Michael'; /** Firstname for your customer to test */
+$lastname = 'Sypolt'; /** Lastname for your customer to test */
+$addr = '5877 Commerce Street'; /** Address for customer */
+$city = 'Pittsburgh'; /** City for customer */
+$zip = '15206'; /** Zip code for customer*/
+$state = 'PA'; /** State Abbreviation for customer */
+$nation = 'US'; /** Nation code for customer */
+$phone = '7244300490'; /** Phone number (digits only) for customer */
+$email = 'michael.sypolt@nurelm.com'; /** Customer email */
