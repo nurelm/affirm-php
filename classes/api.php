@@ -15,13 +15,14 @@
  *
  */
 class AffirmAPI {
-  public $private_key; /**< Affirm Private Key */
-  public $public_key; /**< Affirm Public Key */
-  public $product_code; /**< Affirm Financial Product Code */
-  public $base_url; /**< Affirm base url for making request */
-  public $curl; /**< AffirmCurl object */
+  public $private_key;    /**< Affirm Private Key */
+  public $public_key;     /**< Affirm Public Key */
+  public $product_code;   /**< Affirm Financial Product Code */
+  public $base_url;       /**< Affirm base url for making request */
+  public $curl;           /**< AffirmCurl object */
 
-  public $response; /**< Data from Affirm as an object */
+  public $response;       /**< Data from Affirm as an object */
+  public $status;         /**< HTTP Status from Affirm */
 
   /**
    * Constructor, uses default configuration file if left empty
@@ -76,6 +77,7 @@ class AffirmAPI {
       $this->curl->send();
       $this->curl->unpack();
       $this->response = $this->curl->response_object;
+      $this->status = $this->curl->status;
     }
   }
 
@@ -93,6 +95,7 @@ class AffirmAPI {
       $this->curl->send();
       $this->curl->unpack();
       $this->response = $this->curl->response_object;
+      $this->status = $this->curl->status;
     }
   }
 
@@ -126,6 +129,7 @@ class AffirmAPI {
       $this->curl->send();
       $this->curl->unpack();
       $this->response = $this->curl->response_object;
+      $this->status = $this->curl->status;
     }
   }
 
@@ -143,6 +147,7 @@ class AffirmAPI {
       $this->curl->send();
       $this->curl->unpack();
       $this->response = $this->curl->response_object;
+      $this->status = $this->curl->status;
     }
   }
 
@@ -168,6 +173,7 @@ class AffirmAPI {
       $this->curl->send();
       $this->curl->unpack();
       $this->response = $this->curl->response_object;
+      $this->status = $this->curl->status;
     }
   }
 
@@ -201,6 +207,7 @@ class AffirmAPI {
       $this->curl->send();
       $this->curl->unpack();
       $this->response = $this->curl->response_object;
+      $this->status = $this->curl->status;
     }
   }
 }
