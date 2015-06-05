@@ -4,6 +4,11 @@
  * @file
  * Configuration file for web testing
  *
+ * NOTE: You have to re-enter your details that you entered in the `config.php`
+ * in the root directory of this project becauses this testing installation may
+ * be located on a remote webserver not connected to the Affirm API
+ * codebase.
+ *
  * @category   Testing
  * @package    Affirm API
  * @author     Michael Sypolt <michael.sypolt@nurelm.com>
@@ -15,6 +20,7 @@
 
 $public_key = 'yourpublickey'; /** Public key for Affirm */
 $product_code = 'financialproductkey'; /** Product code for Affirm */
+
 /** Affirm Sandbox or Live CDN'd JavaScript URL */
 $affirm_url = 'https://cdn1-sandbox.affirm.com/js/v2/affirm.js';
 
