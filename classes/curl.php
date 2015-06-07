@@ -28,8 +28,9 @@ class AffirmCurl {
   /**
    * Constructor
    *
-   * @param string $command Command to send to Affirm
-   * @param array $data Data to pack and send to Affirm
+   * @param string $url URL to request
+   * @param string $method HTTP Method
+   * @param array|string $data Data to pack and send to Affirm
    */
   public function __construct($url, $method='GET', $data=''){
     if(is_null($data)){
