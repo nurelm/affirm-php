@@ -43,7 +43,7 @@ class AffirmCurl {
       $this->post_body = $data;
     }
     if(is_null($url)){
-      throw new Exception('You need a URL!');
+      throw new Exception('Missing the URL!');
     }
     $this->status = 0;
     $this->method = $method;
@@ -73,7 +73,7 @@ class AffirmCurl {
       curl_close($this->curl);
     }
     else{
-      throw new Exception('Really bad Thing');
+      throw new Exception('Unable to send cURL request');
     }
   }
 

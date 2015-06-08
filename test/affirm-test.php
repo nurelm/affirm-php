@@ -2,12 +2,9 @@
 
 /**
  * @file
- * Bootstrap file for Affirm API Connector
+ * Tester file for Affirm API Connector
  *
- * This includes all the necessary
- * to access the router, which will then access appropriate controllers
- *
- * @category   Bootstrap
+ * @category   Testing
  * @package    Affirm API
  * @author     Michael Sypolt <michael.sypolt@nurelm.com>
  * @copyright  Copyright (c) 2015
@@ -27,7 +24,7 @@ $token = '';    /**< Token to be sent to Affirm in testing, only once */
 $verbose = 0;   /**< If set to 1, shows var_dump() of data from Affirm */
 
 if (count($_SERVER['argv']) > 10){
-  echo "Don't be so argumentative\n";
+  echo "Don't be so argumentative!\n";
   $help = 1;
 }
 else{
@@ -80,7 +77,6 @@ else{
   $affirm = new AffirmAPI();
 }
 
-
 // Creating a charge, storing data in the $affirm object
 echo "Creating Charge from token {$token}: ";
 $affirm->create_charge($token);
@@ -93,12 +89,20 @@ if ($affirm->status == 200){
 }
 else{
   echo "Token was already used or invalid, no point in further testing :(\n";
+  echo "Please use your site integration (contents of web directory) to make a token\n";
   exit(2);
 }
 
 if($error == 1){
-  echo "Trying to make Affirm send an error by reusing the token: "
+  echo "Trying to make Affirm send an error by reusing the token: ";
   $affirm->create_charge($token);
+  echo "{$affirm->status}\n";
+  if ($verbose == 1){
+    var_dump($affirm->response);
+  }
+
+  echo "Trying to make Affirm send an error by using a silly string: ";
+  $affirm->create_charge("somesillyinvalidstring");
   echo "{$affirm->status}\n";
   if ($verbose == 1){
     var_dump($affirm->response);
@@ -115,7 +119,7 @@ if($verbose == 1){
 }
 
 if ($error == 1){
-  echo "Trying to refund $3.99, before capturing: ";
+  echo "Trying to refund $3.99, before capturing to generate an error: ";
   // Given a $charge_id refund a charge
   $refund = 3.99; /**< refund amount is in dollars */
   $affirm->refund_charge($charge_id, $refund);
@@ -164,7 +168,7 @@ if ($verbose == 1){
   var_dump($affirm->response);
 }
 
-if ($nocapture == 1 && $error == 1){
+if ($error == 1){
   echo "Trying to voiding a charge after capturing: ";
   // Given a $charge_id void a charge
   $affirm->void_charge($charge_id);
