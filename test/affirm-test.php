@@ -27,7 +27,7 @@ $token = '';    /**< Token to be sent to Affirm in testing, only once */
 $verbose = 0;   /**< If set to 1, shows var_dump() of data from Affirm */
 
 if (count($_SERVER['argv']) > 10){
-  echo "Don't be so argumentative, too many arguments\n";
+  echo "Don't be so argumentative\n";
   $help = 1;
 }
 else{
@@ -80,6 +80,7 @@ else{
   $affirm = new AffirmAPI();
 }
 
+
 // Creating a charge, storing data in the $affirm object
 echo "Creating Charge from token {$token}: ";
 $affirm->create_charge($token);
@@ -93,6 +94,16 @@ if ($affirm->status == 200){
 else{
   echo "Token was already used or invalid, no point in further testing :(\n";
   exit(2);
+}
+
+if($error == 1){
+  echo "Trying to make Affirm send an error by reusing the token: "
+  $affirm->create_charge($token);
+  echo "{$affirm->status}\n";
+  if ($verbose == 1){
+    var_dump($affirm->response);
+  }
+
 }
 
 // Given a $charge_id request a charge object from Affirm
@@ -153,6 +164,15 @@ if ($verbose == 1){
   var_dump($affirm->response);
 }
 
+if ($nocapture == 1 && $error == 1){
+  echo "Trying to voiding a charge after capturing: ";
+  // Given a $charge_id void a charge
+  $affirm->void_charge($charge_id);
+  echo "{$affirm->status}\n";
+  if ($verbose == 1){
+    var_dump($affirm->response);
+  }
+}
 if ($ship == 1){
   echo "Since we have some shipping Info, let's try to update it: ";
   // Given a $charge_id and the fields desired to be updated
