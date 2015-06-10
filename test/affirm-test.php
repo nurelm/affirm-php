@@ -79,12 +79,12 @@ else{
 
 // Creating a charge, storing data in the $affirm object
 echo "Creating Charge from token {$token}: ";
-$affirm->create_charge($token);
-echo "{$affirm->status}\n";
+$status = $affirm->create_charge($token);
+echo "{$status}\n";
 if ($verbose == 1){
   var_dump($affirm->response);
 }
-if ($affirm->status == 200){
+if ($status == 0){
   $charge_id = $affirm->response->id;
 }
 else{
@@ -95,15 +95,15 @@ else{
 
 if($error == 1){
   echo "Trying to make Affirm send an error by reusing the token: ";
-  $affirm->create_charge($token);
-  echo "{$affirm->status}\n";
+  $status = $affirm->create_charge($token);
+  echo "{$status}\n";
   if ($verbose == 1){
     var_dump($affirm->response);
   }
 
   echo "Trying to make Affirm send an error by using a silly string: ";
-  $affirm->create_charge("somesillyinvalidstring");
-  echo "{$affirm->status}\n";
+  $status = $affirm->create_charge("somesillyinvalidstring");
+  echo "{$status}\n";
   if ($verbose == 1){
     var_dump($affirm->response);
   }
@@ -112,8 +112,8 @@ if($error == 1){
 
 // Given a $charge_id request a charge object from Affirm
 echo "Now reading a Charge: ";
-$affirm->read_charge($charge_id);
-echo "{$affirm->status}\n";
+$status = $affirm->read_charge($charge_id);
+echo "{$status}\n";
 if($verbose == 1){
   var_dump($affirm->response);
 }
@@ -122,8 +122,8 @@ if ($error == 1){
   echo "Trying to refund $3.99, before capturing to generate an error: ";
   // Given a $charge_id refund a charge
   $refund = 3.99; /**< refund amount is in dollars */
-  $affirm->refund_charge($charge_id, $refund);
-  echo "{$affirm->status}\n";
+  $status = $affirm->refund_charge($charge_id, $refund);
+  echo "{$status}\n";
   if ($verbose == 1){
     var_dump($affirm->response);
   }
@@ -132,8 +132,8 @@ if ($error == 1){
 if ($nocapture == 1){
   echo "Voiding a Charge: ";
   // Given a $charge_id void a charge
-  $affirm->void_charge($charge_id);
-  echo "{$affirm->status}\n";
+  $status = $affirm->void_charge($charge_id);
+  echo "{$status}\n";
   if ($verbose == 1){
     var_dump($affirm->response);
   }
@@ -147,14 +147,14 @@ if ($ship == 1){
   $shipping_carrier = 'UPS'; /**< Carrier shipping the goods */
   $shipping_confirmation = 'someconfnumber'; /**< Shipping confirmation number */
 
-  $affirm->capture_charge($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
+  $status = $affirm->capture_charge($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
 }
 else{
   echo ": ";
   // Given a $charge_id and no optional fields desired
-  $affirm->capture_charge($charge_id);
+  $status = $affirm->capture_charge($charge_id);
 }
-echo "{$affirm->status}\n";
+echo "{$status}\n";
 if ($verbose == 1){
   var_dump($affirm->response);
 }
@@ -162,8 +162,8 @@ if ($verbose == 1){
 echo "Trying to refund $3.99, after capturing: ";
 // Given a $charge_id refund a charge
 $refund = 3.99; /**< refund amount is in dollars */
-$affirm->refund_charge($charge_id, $refund);
-echo "{$affirm->status}\n";
+$status = $affirm->refund_charge($charge_id, $refund);
+echo "{$status}\n";
 if ($verbose == 1){
   var_dump($affirm->response);
 }
@@ -171,8 +171,8 @@ if ($verbose == 1){
 if ($error == 1){
   echo "Trying to voiding a charge after capturing: ";
   // Given a $charge_id void a charge
-  $affirm->void_charge($charge_id);
-  echo "{$affirm->status}\n";
+  $status = $affirm->void_charge($charge_id);
+  echo "{$status}\n";
   if ($verbose == 1){
     var_dump($affirm->response);
   }
@@ -184,8 +184,8 @@ if ($ship == 1){
   $shipping_carrier = 'USPS'; /**< Carrier shipping the goods */
   $shipping_confirmation = 'somenewconf'; /**< Shipping confirmation number */
 
-  $affirm->update_shipping($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
-  echo "{$affirm->status}\n";
+  $status = $affirm->update_shipping($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
+  echo "{$status}\n";
   if ($verbose == 1){
     var_dump($affirm->response);
   }
@@ -196,8 +196,8 @@ if ($ship == 1){
   $shipping_carrier = 'UPS'; //Changed carrier
   $shipping_confirmation = 'someconfnumber'; //Shipping confirmation changed
 
-  $affirm->update_shipping($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
-  echo "{$affirm->status}\n";
+  $status = $affirm->update_shipping($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
+  echo "{$status}\n";
   if ($verbose == 1){
     var_dump($affirm->response);
   }

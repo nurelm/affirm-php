@@ -1,4 +1,4 @@
-Affirm API 0.5.0, [ongoing]
+Affirm API 0.5.0, [2015-06-15]
 ------------------------------
 - Combined old project files to make this project
 - Built up OOP framework

@@ -34,6 +34,9 @@ class AffirmAPI {
    */
   public function __construct($production = null, $public_key = null, $private_key = null, $product_code = null){
     // Set up configuration, use override for production mode if needed
+    if (!class_exists('AffirmConfig')){
+      throw new Exception('AffirmConfig class does not exist');
+    }
     $config = new AffirmConfig();
     if (is_bool($production)){
       $config->production = $production;
@@ -66,6 +69,8 @@ class AffirmAPI {
    * Creates a new charge from the checkout_token
    *
    * @param string $checkout_token Authentication token from affirm.js
+   *
+   * @return int $status Status as an integer, 0 meaning success
    */
   public function create_charge($checkout_token){
     if (is_null($checkout_token) || $checkout_token == ''){
@@ -78,6 +83,12 @@ class AffirmAPI {
       $this->curl->unpack();
       $this->response = $this->curl->response_object;
       $this->status = $this->curl->status;
+      if ($this->curl->status == 200){
+        return 0;
+      }
+      else{
+        return 1; //For now, use "true" meaning there is an error
+      }
     }
   }
 
@@ -85,6 +96,8 @@ class AffirmAPI {
    * Reads a charge from a previously created charge
    *
    * @param string $charge_id Unique Charge ID from Affirm
+   *
+   * @return int $status Status as an integer, 0 meaning success
    */
   public function read_charge($charge_id){
     if ($charge_id == ''){
@@ -96,6 +109,12 @@ class AffirmAPI {
       $this->curl->unpack();
       $this->response = $this->curl->response_object;
       $this->status = $this->curl->status;
+      if ($this->curl->status == 200){
+        return 0;
+      }
+      else{
+        return 1; //For now, use "true" meaning there is an error
+      }
     }
   }
 
@@ -106,6 +125,8 @@ class AffirmAPI {
    * @param string $order_id Optional order ID for your records
    * @param string $carrier Optional shipping carrier name
    * @param string $confirmation Optional confirmation number
+   *
+   * @return int $status Status as an integer, 0 meaning success
    */
   public function capture_charge($charge_id, $order_id = null, $carrier = null, $confirmation = null){
     if ($charge_id == ''){
@@ -130,6 +151,12 @@ class AffirmAPI {
       $this->curl->unpack();
       $this->response = $this->curl->response_object;
       $this->status = $this->curl->status;
+      if ($this->curl->status == 200){
+        return 0;
+      }
+      else{
+        return 1; //For now, use "true" meaning there is an error
+      }
     }
   }
 
@@ -137,6 +164,8 @@ class AffirmAPI {
    * Voids the charge
    *
    * @param string $charge_id Unique Charge ID from Affirm
+   *
+   * @return int $status Status as an integer, 0 meaning success
    */
   public function void_charge($charge_id){
     if ($charge_id == ''){
@@ -148,6 +177,12 @@ class AffirmAPI {
       $this->curl->unpack();
       $this->response = $this->curl->response_object;
       $this->status = $this->curl->status;
+      if ($this->curl->status == 200){
+        return 0;
+      }
+      else{
+        return 1; //For now, use "true" meaning there is an error
+      }
     }
   }
 
@@ -156,6 +191,8 @@ class AffirmAPI {
    *
    * @param string $charge_id Unique Charge ID from Affirm
    * @param float $amount Amount of refund in decimal dollars
+   *
+   * @return int $status Status as an integer, 0 meaning success
    */
   public function refund_charge($charge_id, $amount){
     if ($charge_id == ''){
@@ -174,6 +211,12 @@ class AffirmAPI {
       $this->curl->unpack();
       $this->response = $this->curl->response_object;
       $this->status = $this->curl->status;
+      if ($this->curl->status == 200){
+        return 0;
+      }
+      else{
+        return 1; //For now, use "true" meaning there is an error
+      }
     }
   }
 
@@ -184,6 +227,8 @@ class AffirmAPI {
    * @param string $order_id Optional order ID for your records
    * @param string $carrier Optional shipping carrier name
    * @param string $confirmation Optional confirmation number
+   *
+   * @return int $status Status as an integer, 0 meaning success
    */
   public function update_shipping($charge_id, $order_id = null, $carrier = null, $confirmation = null){
     if ($charge_id == ''){
@@ -208,6 +253,12 @@ class AffirmAPI {
       $this->curl->unpack();
       $this->response = $this->curl->response_object;
       $this->status = $this->curl->status;
+      if ($this->curl->status == 200){
+        return 0;
+      }
+      else{
+        return 1; //For now, use "true" meaning there is an error
+      }
     }
   }
 }
