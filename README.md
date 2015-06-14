@@ -29,10 +29,11 @@ include(DOC_ROOT . '/affirm-php/affirm-api.php');
 
 This library depends on [PHP](http://php.net/) 5.5 or later. Most
 GNU/Linux distributions provide them in an easily downloaded and installed
-repository. The [PHP cURL Library](http://php.net/manual/en/book.curl.php)
-is also needed, and is often packaged separately. Installation instructions
-are shown below for each of the major GNU/Linux distribution types. These
-commands must all be run as root, or use `sudo` utility.
+repository. The [PHP cURL Library](http://php.net/manual/en/book.curl.php) and
+the [PHP JSON Library](http://php.net/manual/en/book.json.php) are also needed,
+and are often packaged separately. Installation instructions are shown below
+for each of the major GNU/Linux distribution types. These commands must all
+be run as root, or use `sudo` utility.
 
 ## APT (Debian/Ubuntu based distributions)
 
@@ -42,7 +43,7 @@ commands must all be run as root, or use `sudo` utility.
 apt-get update
 
 # Install the dependencies
-apt-get install php5 php5-curl
+apt-get install php5 php5-curl php5-json
 ```
 
 ## YUM (Fedora/CentOS/Red Hat based distributions)
