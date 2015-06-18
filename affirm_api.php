@@ -12,7 +12,7 @@
  * @author     Michael Sypolt <michael.sypolt@nurelm.com>
  * @copyright  Copyright (c) 2015
  * @license    http://www.gnu.org/licenses/gpl-3.0.txt
- * @version    0.5.0
+ * @version    0.9.0
  */
 
 // Make sure this directory is application root
