@@ -118,6 +118,18 @@ $production = true; /**< Set this to false if in sandbox mode */
 $affirm = new AffirmAPI($public_key, $private_key, $product_code, $production);
 ```
 
+## Error Handling
+
+All methods (except the constructor) of the AffirmAPI class return a status
+code while updating the object with the reponse from Affirm. The method returns
+an integer status that corresponds with the Affirm status code if an error is
+returned from Affirm. It returns the integer 1 if the API catches an error
+before sending a request to Affirm. If a non-zero status is sent, the `response`
+object in the AffirmAPI object is an Error object as defined in the 
+[Affirm Documentation](http://docs.affirm.com/v2/api/errors/#status-codes). If
+no error is observed, the status returned is 0 (instead of the HTTP status 200)
+to behave similar to other APIs where zero mean no error.
+
 ## Create a new Charge
 
 Your web-facing application would harvest a `checkout_token` which is required
@@ -132,8 +144,15 @@ a one-time use token and is no longer usable once a new charge is created.
 
 $token = 'somesillystringfromaffirm' /**< checkout_token from Affirm */
 // Creating a charge, storing data in the $affirm object
-$affirm->create_charge($token);
-$charge_id = $affirm->response->id;
+$error = $affirm->create_charge($token);
+if(!$error){
+  $charge_object = $affirm->response;
+  $charge_id = $affirm->response->id;
+}
+else{
+  $error_object = $affirm->response;
+}
+
 ```
 
 Once you have a `charge_id`, you can use it to perform further actions to the
@@ -149,7 +168,13 @@ uses the `charge_id` since you can only create a charge once.
 ```php
 
 // Given a $charge_id request a charge object from Affirm
-$affirm->read_charge($charge_id);
+$error = $affirm->read_charge($charge_id);
+if(!$error){
+  $charge_object = $affirm->response;
+}
+else{
+  $error_object = $affirm->response;
+}
 
 ```
 
@@ -166,21 +191,40 @@ optional:
 ```php
 
 // Given a $charge_id and no optional fields desired
-$affirm->capture_charge($charge_id);
+$error = $affirm->capture_charge($charge_id);
+if(!$error){
+  $charge_event = $affirm->response;
+}
+else{
+  $error_object = $affirm->response;
+}
 
 // If adding the optional fields, include them as follows
 $order_id = 'yourownappid'; /**< Order ID for your own records */
 $shipping_carrier = 'USPS'; /**< Carrier shipping the goods */
 $shipping_confirmation = 'someconfnumber'; /**< Shipping confirmation number */
 
-$affirm->capture_charge($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
+$error = $affirm->capture_charge($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
+if(!$error){
+  $charge_event = $affirm->response;
+}
+else{
+  $error_object = $affirm->response;
+}
 
 // If you provide only a few optional fields, set others to null
 $order_id = 'yourownappid';
 $shipping_carrier = 'USPS';
 $shipping_confirmation = null; //Shipping confirmation was not supplied
 
-$affirm->capture_charge($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
+$error = $affirm->capture_charge($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
+if(!$error){
+  $charge_event = $affirm->response;
+}
+else{
+  $error_object = $affirm->response;
+}
+
 ```
 
 ## Void a Charge
@@ -191,7 +235,13 @@ other parameters are required.
 ```php
 
 // Given a $charge_id void a charge
-$affirm->void_charge($charge_id);
+$error = $affirm->void_charge($charge_id);
+if(!$error){
+  $charge_event = $affirm->response;
+}
+else{
+  $error_object = $affirm->response;
+}
 ```
 
 ## Refund a Charge
@@ -203,7 +253,13 @@ the amount to be refunded.
 
 // Given a $charge_id refund a charge
 $amount = 3.99; /**< refund amount is in dollars */
-$affirm->refund_charge($charge_id, $refund);
+$error = $affirm->refund_charge($charge_id, $refund);
+if(!$error){
+  $charge_event = $affirm->response;
+}
+else{
+  $error_object = $affirm->response;
+}
 ```
 
 ## Update Shipping Information
@@ -222,12 +278,24 @@ $order_id = 'yourownappid'; /**< Order ID for your own records */
 $shipping_carrier = 'USPS'; /**< Carrier shipping the goods */
 $shipping_confirmation = 'someconfnumber'; /**< Shipping confirmation number */
 
-$affirm->update_shipping($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
+$error = $affirm->update_shipping($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
+if(!$error){
+  $charge_event = $affirm->response;
+}
+else{
+  $error_object = $affirm->response;
+}
 
 // If you provide only a few optional fields, set others to null
 $order_id = null; //Was not changed
 $shipping_carrier = 'UPS'; //Changed carrier
 $shipping_confirmation = 'someconfnumber'; //Shipping confirmation changed
 
-$affirm->capture_charge($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
+$error = $affirm->capture_charge($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
+if(!$error){
+  $charge_event = $affirm->response;
+}
+else{
+  $error_object = $affirm->response;
+}
 ```
