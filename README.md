@@ -53,7 +53,7 @@ apt-get install php5 php5-curl php5-json
 # No need to update cache, it's automatic
 
 # Install the dependencies
-yum install php5 php5-curl
+yum install php5 php5-json php5-curl
 ```
 
 ## Affirm Account
