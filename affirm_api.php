@@ -14,14 +14,15 @@
  * @license    http://www.gnu.org/licenses/gpl-3.0.txt
  * @version    0.5.0
  */
+
 // Make sure this directory is application root
-define('DOC_ROOT', __DIR__);
+$AFFIRM_ROOT = __DIR__;
 
 // Load the settings
-require_once (DOC_ROOT . '/config.php');
+require_once ($AFFIRM_ROOT . '/config.php');
 
 // Load the classes
-$PATH = DOC_ROOT . '/classes';
+$PATH = $AFFIRM_ROOT . '/classes';
 $includes = scandir($PATH);
 foreach ($includes as $include){
   if (is_file($PATH . '/' . $include) && $include != '.' && $include != '..' && fnmatch("*.php", $include)){

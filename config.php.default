@@ -23,5 +23,4 @@ class AffirmConfig {
   public $product_key = 'productkeyhere'; /**< Financial product key from Affirm */
   public $live_baseurl = 'api.affirm.com/api/v2/charges'; /**< Live API's base URL */
   public $sandbox_baseurl = 'sandbox.affirm.com/api/v2/charges'; /**< Sandbox API's base URL */
-
 }

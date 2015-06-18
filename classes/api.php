@@ -74,7 +74,15 @@ class AffirmAPI {
    */
   public function create_charge($checkout_token){
     if (is_null($checkout_token) || $checkout_token == ''){
-      throw new Exception('Checkout token is empty');
+      // Make something look like the Affirm error object
+      $this->response = (object) array(
+        'status_code' => 1,
+        'type' => 'invalid_request',
+        'code' => 'invalid_field',
+        'message' => 'Checkout Token is empty, could not send to Affirm',
+        'field' => 'checkout_token',
+      );
+      return 1;
     }
     else{
       $auth_array = array('checkout_token' => $checkout_token);
@@ -84,10 +92,12 @@ class AffirmAPI {
       $this->response = $this->curl->response_object;
       $this->status = $this->curl->status;
       if ($this->curl->status == 200){
+        // Zero is always a good number to return when there is no error
         return 0;
       }
       else{
-        return 1; //For now, use "true" meaning there is an error
+        // Just pass the status code from Affirm through the API
+        return $this->curl->status;
       }
     }
   }
@@ -101,7 +111,15 @@ class AffirmAPI {
    */
   public function read_charge($charge_id){
     if ($charge_id == ''){
-      throw new Exception('Charge ID is empty');
+      // Make something look like the Affirm error object
+      $this->response = (object) array(
+        'status_code' => 1,
+        'type' => 'invalid_request',
+        'code' => 'invalid_field',
+        'message' => 'Charge ID is empty, could not send to Affirm',
+        'field' => 'charge_id',
+      );
+      return 1;
     }
     else{
       $this->curl = new AffirmCurl("https://{$this->public_key}:{$this->private_key}@{$this->base_url}/{$charge_id}");
@@ -110,10 +128,12 @@ class AffirmAPI {
       $this->response = $this->curl->response_object;
       $this->status = $this->curl->status;
       if ($this->curl->status == 200){
+        // Zero is always a good number to return when there is no error
         return 0;
       }
       else{
-        return 1; //For now, use "true" meaning there is an error
+        // Just pass the status code from Affirm through the API
+        return $this->curl->status;
       }
     }
   }
@@ -130,7 +150,15 @@ class AffirmAPI {
    */
   public function capture_charge($charge_id, $order_id = null, $carrier = null, $confirmation = null){
     if ($charge_id == ''){
-      throw new Exception('Charge ID is empty');
+      // Make something look like the Affirm error object
+      $this->response = (object) array(
+        'status_code' => 1,
+        'type' => 'invalid_request',
+        'code' => 'invalid_field',
+        'message' => 'Charge ID is empty, could not send to Affirm',
+        'field' => 'charge_id',
+      );
+      return 1;
     }
     else{
       $inputs = array();
@@ -152,10 +180,12 @@ class AffirmAPI {
       $this->response = $this->curl->response_object;
       $this->status = $this->curl->status;
       if ($this->curl->status == 200){
+        // Zero is always a good number to return when there is no error
         return 0;
       }
       else{
-        return 1; //For now, use "true" meaning there is an error
+        // Just pass the status code from Affirm through the API
+        return $this->curl->status;
       }
     }
   }
@@ -169,7 +199,15 @@ class AffirmAPI {
    */
   public function void_charge($charge_id){
     if ($charge_id == ''){
-      throw new Exception('Charge ID is empty');
+      // Make something look like the Affirm error object
+      $this->response = (object) array(
+        'status_code' => 1,
+        'type' => 'invalid_request',
+        'code' => 'invalid_field',
+        'message' => 'Charge ID is empty, could not send to Affirm',
+        'field' => 'charge_id',
+      );
+      return 1;
     }
     else{
       $this->curl = new AffirmCurl("https://{$this->public_key}:{$this->private_key}@{$this->base_url}/{$charge_id}/void", 'POST', '{}');
@@ -178,10 +216,12 @@ class AffirmAPI {
       $this->response = $this->curl->response_object;
       $this->status = $this->curl->status;
       if ($this->curl->status == 200){
+        // Zero is always a good number to return when there is no error
         return 0;
       }
       else{
-        return 1; //For now, use "true" meaning there is an error
+        // Just pass the status code from Affirm through the API
+        return $this->curl->status;
       }
     }
   }
@@ -196,11 +236,27 @@ class AffirmAPI {
    */
   public function refund_charge($charge_id, $amount){
     if ($charge_id == ''){
-      throw new Exception('Charge ID is empty');
+      // Make something look like the Affirm error object
+      $this->response = (object) array(
+        'status_code' => 1,
+        'type' => 'invalid_request',
+        'code' => 'invalid_field',
+        'message' => 'Charge ID is empty, could not send to Affirm',
+        'field' => 'charge_id',
+      );
+      return 1;
     }
     else{
       if (is_null($amount) || !is_numeric($amount)){
-        throw new Exception('Amount is not a number');
+        // Make something look like the Affirm error object
+        $this->response = (object) array(
+          'status_code' => 1,
+          'type' => 'invalid_request',
+          'code' => 'invalid_field',
+          'message' => 'The refund amount is not a number, could not send to Affirm.',
+          'field' => 'amount',
+        );
+        return 1;
       }
       else{
         $cents = $amount * 100;
@@ -212,10 +268,12 @@ class AffirmAPI {
       $this->response = $this->curl->response_object;
       $this->status = $this->curl->status;
       if ($this->curl->status == 200){
+        // Zero is always a good number to return when there is no error
         return 0;
       }
       else{
-        return 1; //For now, use "true" meaning there is an error
+        // Just pass the status code from Affirm through the API
+        return $this->curl->status;
       }
     }
   }
@@ -232,7 +290,15 @@ class AffirmAPI {
    */
   public function update_shipping($charge_id, $order_id = null, $carrier = null, $confirmation = null){
     if ($charge_id == ''){
-      throw new Exception('Charge ID is empty');
+      // Make something look like the Affirm error object
+      $this->response = (object) array(
+        'status_code' => 1,
+        'type' => 'invalid_request',
+        'code' => 'invalid_field',
+        'message' => 'Charge ID is empty, could not send to Affirm',
+        'field' => 'charge_id',
+      );
+      return 1;
     }
     else{
       $inputs = array();
@@ -254,10 +320,12 @@ class AffirmAPI {
       $this->response = $this->curl->response_object;
       $this->status = $this->curl->status;
       if ($this->curl->status == 200){
+        // Zero is always a good number to return when there is no error
         return 0;
       }
       else{
-        return 1; //For now, use "true" meaning there is an error
+        // Just pass the status code from Affirm through the API
+        return $this->curl->status;
       }
     }
   }
