@@ -17,7 +17,7 @@
 class AffirmAPI {
   public $private_key;    /**< Affirm Private Key */
   public $public_key;     /**< Affirm Public Key */
-  public $product_code;   /**< Affirm Financial Product Code */
+  public $product_key;   /**< Affirm Financial Product Key */
   public $base_url;       /**< Affirm base url for making request */
   public $curl;           /**< AffirmCurl object */
 
@@ -30,9 +30,9 @@ class AffirmAPI {
    * @param boolean $production Set this to false for sandbox mode
    * @param string $public_key Public Key for Affirm API
    * @param string $private_key Private Key for Affirm API
-   * @param string $product_code Finanical product code for Affirm
+   * @param string $product_key Finanical product keyfor Affirm
    */
-  public function __construct($production = null, $public_key = null, $private_key = null, $product_code = null){
+  public function __construct($production = null, $public_key = null, $private_key = null, $product_key = null){
     // Set up configuration, use override for production mode if needed
     if (!class_exists('AffirmConfig')){
       throw new Exception('AffirmConfig class does not exist');
@@ -51,17 +51,17 @@ class AffirmAPI {
       $this->private_key = $config->sandbox_private_key;
       $this->base_url = $config->sandbox_baseurl;
     }
-    $this->product_code = $config->product_key;
+    $this->product_key = $config->product_key;
 
     // Add any overrides to keys and codes
-    if (is_bool($public_key)){
+    if (is_string($public_key) && $public_key != ''){
       $this->public_key = $public_key;
     }
-    if (is_bool($private_key)){
+    if (is_string($private_key) && $private_key != ''){
       $this->private_key = $private_key;
     }
-    if (is_bool($product_code)){
-      $this->product_code = $product_code;
+    if (is_string($product_key) && $product_key){
+      $this->product_key = $product_key;
     }
   }
 

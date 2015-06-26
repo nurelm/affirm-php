@@ -67,10 +67,10 @@ if($long == 1){
 
   $public_key = $config->sandbox_pubic_key;
   $private_key = $config->sandbox_private_key;
-  $product_code = $config->product_key; /**< Financial product code */
+  $product_key = $config->product_key;
   $production = false; /**< Set this to false if in sandbox mode */
 
-  $affirm = new AffirmAPI($public_key, $private_key, $product_code, $production);
+  $affirm = new AffirmAPI($public_key, $private_key, $product_key, $production);
 }
 else{
   // Create a new AffirmAPI with a fully configured AffirmConfig class

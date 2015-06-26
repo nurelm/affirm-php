@@ -112,11 +112,11 @@ class:
 // These would really be in a database, but showing this for example
 $public_key = 'secretkey'; /**< Public API key, also used on Site Integration */
 $private_key = 'supersecretkey'; /**< Private API key, never share this! */
-$product_code = 'financialcode'; /**< Financial product code */
+$product_key = 'financialkey'; /**< Financial product key */
 $production = true; /**< Set this to false if in sandbox mode */
 
 // Create a new AffirmAPI with the above information included
-$affirm = new AffirmAPI($public_key, $private_key, $product_code, $production);
+$affirm = new AffirmAPI($public_key, $private_key, $product_key, $production);
 ```
 
 ## Error Handling
