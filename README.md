@@ -59,9 +59,10 @@ yum install php5 php5-json php5-curl
 ## Affirm Account
 
 A current [Affirm](https://www.affirm.com/) account is required for this
-library to function. Once signed up for Affirm, a public/private key pair that
-serves as your username and password would be provided, along with a Financial
-Product Code and your API URL. In another area of your application that faces
+library. You may sign up [here](https://www.affirm.com/merchants/).
+Once signed up for Affirm, a public/private key pair that serves as your
+username and password would be provided, along with a Financial Product Key
+and your API URL. In another area of your application that faces
 the web, you should follow the steps outlined in the Affirm
 [Site Integration](http://docs.affirm.com/v2/api/#site-integration)
 documentation. Your server should also be set up to receive the webhook that
@@ -142,7 +143,7 @@ a one-time use token and is no longer usable once a new charge is created.
 
 ```php
 
-$token = 'somesillystringfromaffirm' /**< checkout_token from Affirm */
+$token = 'exampleaffirmtoken' /**< checkout_token from Affirm */
 // Creating a charge, storing data in the $affirm object
 $error = $affirm->create_charge($token);
 if(!$error){
