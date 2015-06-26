@@ -230,7 +230,7 @@ class AffirmAPI {
    * Refunds the charge
    *
    * @param string $charge_id Unique Charge ID from Affirm
-   * @param float $amount Amount of refund in decimal dollars
+   * @param int $amount Amount of refund in cents
    *
    * @return int $status Status as an integer, 0 meaning success
    */
@@ -247,21 +247,7 @@ class AffirmAPI {
       return 1;
     }
     else{
-      if (is_null($amount) || !is_numeric($amount)){
-        // Make something look like the Affirm error object
-        $this->response = (object) array(
-          'status_code' => 1,
-          'type' => 'invalid_request',
-          'code' => 'invalid_field',
-          'message' => 'The refund amount is not a number, could not send to Affirm.',
-          'field' => 'amount',
-        );
-        return 1;
-      }
-      else{
-        $cents = $amount * 100;
-        $inputs = array('amount' => $cents);
-      }
+      $inputs = array('amount' => $amount);
       $this->curl = new AffirmCurl("https://{$this->public_key}:{$this->private_key}@{$this->base_url}/{$charge_id}/refund", 'POST', $inputs);
       $this->curl->send();
       $this->curl->unpack();

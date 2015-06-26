@@ -160,8 +160,7 @@ if ($verbose == 1){
 }
 
 echo "Trying to refund $3.99, after capturing: ";
-// Given a $charge_id refund a charge
-$refund = 3.99; /**< refund amount is in dollars */
+$refund = 399; 
 $status = $affirm->refund_charge($charge_id, $refund);
 echo "{$status}\n";
 if ($verbose == 1){
@@ -202,3 +201,11 @@ if ($ship == 1){
     var_dump($affirm->response);
   }
 }
+
+echo "Trying to refund balance by not passing an amount: ";
+$status = $affirm->refund_charge($charge_id);
+echo "{$status}\n";
+if ($verbose == 1){
+  var_dump($affirm->response);
+}
+

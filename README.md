@@ -248,13 +248,24 @@ else{
 ## Refund a Charge
 
 To refund a charge, use the `refund_charge()` method with your `charge_id` and
-the amount to be refunded.
+the amount to be refunded. This amount must either be in cents, or omitted. If
+the value is omitted or `null`, the Affirm side will attempt to refund the
+entire amount of the charge.
 
 ```php
 
-// Given a $charge_id refund a charge
-$amount = 3.99; /**< refund amount is in dollars */
+// Given a $charge_id refund a charge and an amount
+$amount = 399; /**< refund amount MUST be in cents */
 $error = $affirm->refund_charge($charge_id, $refund);
+if(!$error){
+  $charge_event = $affirm->response;
+}
+else{
+  $error_object = $affirm->response;
+}
+
+// Omit amount to refund full amount
+$error = $affirm->refund_charge($charge_id);
 if(!$error){
   $charge_event = $affirm->response;
 }
