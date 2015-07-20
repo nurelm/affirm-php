@@ -60,7 +60,7 @@ class AffirmAPI {
     if (is_string($private_key) && $private_key != ''){
       $this->private_key = $private_key;
     }
-    if (is_string($product_key) && $product_key){
+    if (is_string($product_key) && $product_key != ''){
       $this->product_key = $product_key;
     }
   }
@@ -234,7 +234,7 @@ class AffirmAPI {
    *
    * @return int $status Status as an integer, 0 meaning success
    */
-  public function refund_charge($charge_id, $amount){
+  public function refund_charge($charge_id, $amount=null){
     if ($charge_id == ''){
       // Make something look like the Affirm error object
       $this->response = (object) array(
