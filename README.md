@@ -303,7 +303,7 @@ $order_id = null; //Was not changed
 $shipping_carrier = 'UPS'; //Changed carrier
 $shipping_confirmation = 'someconfnumber'; //Shipping confirmation changed
 
-$error = $affirm->capture_charge($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
+$error = $affirm->update_shipping($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
 if(!$error){
   $charge_event = $affirm->response;
 }
