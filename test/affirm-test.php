@@ -23,6 +23,8 @@ $ship = 0;      /**< If set to 1, use shipping info tests for updating */
 $token = '';    /**< Token to be sent to Affirm in testing, only once */
 $verbose = 0;   /**< If set to 1, shows var_dump() of data from Affirm */
 
+$failures = 0;  /**< Number of failures observed in this test */
+
 if (count($_SERVER['argv']) > 10){
   echo "Don't be so argumentative!\n";
   $help = 1;
@@ -80,7 +82,14 @@ else{
 // Creating a charge, storing data in the $affirm object
 echo "Creating Charge from token {$token}: ";
 $status = $affirm->create_charge($token);
-echo "{$status}\n";
+if ($status != 0){
+  $failures += 1;
+  $success = 'FAIL';
+}
+else{
+  $success = 'SUCCESS';
+}
+echo "{$status} {$success}\n";
 if ($verbose == 1){
   var_dump($affirm->response);
 }
@@ -96,14 +105,28 @@ else{
 if($error == 1){
   echo "Trying to make Affirm send an error by reusing the token: ";
   $status = $affirm->create_charge($token);
-  echo "{$status}\n";
+  if ($status != 400){
+    $failures += 1;
+    $success = 'FAIL';
+  }
+  else{
+    $success = 'SUCCESS';
+  }
+  echo "{$status} {$success}\n";
   if ($verbose == 1){
     var_dump($affirm->response);
   }
 
   echo "Trying to make Affirm send an error by using a silly string: ";
   $status = $affirm->create_charge("somesillyinvalidstring");
-  echo "{$status}\n";
+  if ($status != 400){
+    $failures += 1;
+    $success = 'FAIL';
+  }
+  else{
+    $success = 'SUCCESS';
+  }
+  echo "{$status} {$success}\n";
   if ($verbose == 1){
     var_dump($affirm->response);
   }
@@ -113,7 +136,14 @@ if($error == 1){
 // Given a $charge_id request a charge object from Affirm
 echo "Now reading a Charge: ";
 $status = $affirm->read_charge($charge_id);
-echo "{$status}\n";
+if ($status != 0){
+  $failures += 1;
+  $success = 'FAIL';
+}
+else{
+  $success = 'SUCCESS';
+}
+echo "{$status} {$success}\n";
 if($verbose == 1){
   var_dump($affirm->response);
 }
@@ -123,7 +153,14 @@ if ($error == 1){
   // Given a $charge_id refund a charge
   $refund = 3.99; /**< refund amount is in dollars */
   $status = $affirm->refund_charge($charge_id, $refund);
-  echo "{$status}\n";
+  if ($status != 400){
+    $failures += 1;
+    $success = 'FAIL';
+  }
+  else{
+    $success = 'SUCCESS';
+  }
+  echo "{$status} {$success}\n";
   if ($verbose == 1){
     var_dump($affirm->response);
   }
@@ -133,7 +170,14 @@ if ($nocapture == 1){
   echo "Voiding a Charge: ";
   // Given a $charge_id void a charge
   $status = $affirm->void_charge($charge_id);
-  echo "{$status}\n";
+  if ($status != 0){
+    $failures += 1;
+    $success = 'FAIL';
+  }
+  else{
+    $success = 'SUCCESS';
+  }
+  echo "{$status} {$success}\n";
   if ($verbose == 1){
     var_dump($affirm->response);
   }
@@ -154,7 +198,14 @@ else{
   // Given a $charge_id and no optional fields desired
   $status = $affirm->capture_charge($charge_id);
 }
-echo "{$status}\n";
+if ($status != 0){
+  $failures += 1;
+  $success = 'FAIL';
+}
+else{
+  $success = 'SUCCESS';
+}
+echo "{$status} {$success}\n";
 if ($verbose == 1){
   var_dump($affirm->response);
 }
@@ -162,7 +213,14 @@ if ($verbose == 1){
 echo "Trying to refund $3.99, after capturing: ";
 $refund = 399; 
 $status = $affirm->refund_charge($charge_id, $refund);
-echo "{$status}\n";
+if ($status != 0){
+  $failures += 1;
+  $success = 'FAIL';
+}
+else{
+  $success = 'SUCCESS';
+}
+echo "{$status} {$success}\n";
 if ($verbose == 1){
   var_dump($affirm->response);
 }
@@ -171,7 +229,14 @@ if ($error == 1){
   echo "Trying to voiding a charge after capturing: ";
   // Given a $charge_id void a charge
   $status = $affirm->void_charge($charge_id);
-  echo "{$status}\n";
+  if ($status != 400){
+    $failures += 1;
+    $success = 'FAIL';
+  }
+  else{
+    $success = 'SUCCESS';
+  }
+  echo "{$status} {$success}\n";
   if ($verbose == 1){
     var_dump($affirm->response);
   }
@@ -184,7 +249,14 @@ if ($ship == 1){
   $shipping_confirmation = 'somenewconf'; /**< Shipping confirmation number */
 
   $status = $affirm->update_shipping($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
-  echo "{$status}\n";
+  if ($status != 0){
+    $failures += 1;
+    $success = 'FAIL';
+  }
+  else{
+    $success = 'SUCCESS';
+  }
+  echo "{$status} {$success}\n";
   if ($verbose == 1){
     var_dump($affirm->response);
   }
@@ -196,7 +268,14 @@ if ($ship == 1){
   $shipping_confirmation = 'someconfnumber'; //Shipping confirmation changed
 
   $status = $affirm->update_shipping($charge_id, $order_id, $shipping_carrier, $shipping_confirmation);
-  echo "{$status}\n";
+  if ($status != 0){
+    $failures += 1;
+    $success = 'FAIL';
+  }
+  else{
+    $success = 'SUCCESS';
+  }
+  echo "{$status} {$success}\n";
   if ($verbose == 1){
     var_dump($affirm->response);
   }
@@ -204,8 +283,22 @@ if ($ship == 1){
 
 echo "Trying to refund balance by not passing an amount: ";
 $status = $affirm->refund_charge($charge_id);
-echo "{$status}\n";
+if ($status != 0){
+  $failures += 1;
+  $success = 'FAIL';
+}
+else{
+  $success = 'SUCCESS';
+}
+echo "{$status} {$success}\n";
 if ($verbose == 1){
   var_dump($affirm->response);
 }
 
+if ($failures == 0){
+  $success = 'SUCCESS';
+}
+else{
+  $success = 'FAIL';
+}
+echo "{$success}! Test complete with {$failures} errors.\n";
