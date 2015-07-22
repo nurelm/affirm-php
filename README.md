@@ -256,7 +256,7 @@ entire amount of the charge.
 
 // Given a $charge_id refund a charge and an amount
 $amount = 399; /**< refund amount MUST be in cents */
-$error = $affirm->refund_charge($charge_id, $refund);
+$error = $affirm->refund_charge($charge_id, $amount);
 if(!$error){
   $charge_event = $affirm->response;
 }
