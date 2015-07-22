@@ -1,3 +1,7 @@
+Affirm API 1.0.0, [2015-07-22]
+- Testing suite shows success or failure for each item and at the end of tests
+- Minor clarifications and bugfixes
+
 Affirm API 0.9.0, [2015-06-22]
 ------------------------------
 - Combined old project files to make this project
