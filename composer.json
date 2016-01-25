@@ -1,0 +1,20 @@
+{
+    "name": "nurelm/affirm-php",
+    "description": "A stand-alone PHP library that connects to the Affirm API.",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Michael Sypolt",
+            "email": "michael.sypolt@nurelm.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "NuRelm\\Affirm\\": "src/"
+        }
+    }
+}

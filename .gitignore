@@ -8,3 +8,7 @@ test/web/webconfig.php
 # Potential error logs
 error_log
 error.log
+.idea
+.DS_Store
+
+vendor
