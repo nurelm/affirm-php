@@ -1,5 +1,7 @@
 <?php
 
+namespace NuRelm\Affirm;
+
 /**
  * @file
  * AffirmConfig Class
@@ -15,12 +17,6 @@
  *
  */
 class AffirmConfig {
-  public $production = true; /**< set this to false if using sandbox API */
-  public $sandbox_public_key = 'secretkeyhere'; /**< Sandbox public key from Affirm */
-  public $sandbox_private_key = 'supersecretkey'; /**< Sandbox private key from Affirm */
-  public $live_public_key = 'secretkeyhere'; /**< Production public key from Affirm */
-  public $live_private_key = 'supersecretkey'; /**< Production private key from Affirm */
-  public $product_key = 'productkeyhere'; /**< Financial product key from Affirm */
   public $live_baseurl = 'api.affirm.com/api/v2/charges'; /**< Live API's base URL */
   public $sandbox_baseurl = 'sandbox.affirm.com/api/v2/charges'; /**< Sandbox API's base URL */
 }
